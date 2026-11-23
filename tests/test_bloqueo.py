@@ -208,7 +208,18 @@ class TestConOtroProcesoUsandoLaCarpeta:
         bloqueada_por_otro_proceso.kill()  # sin cerrar nada: como un cuelgue o un corte de luz
         bloqueada_por_otro_proceso.wait()
 
-        resultado = OrganizadorArchivos(carpeta_origen=carpeta_organizada).deshacer()
+        # Windows suelta los bloqueos de un proceso muerto poco después, no al instante: según la
+        # documentación de LockFile, tarda más o menos según lo cargado que esté el sistema. En
+        # las máquinas de GitHub Actions se nota, así que se reintenta unos segundos.
+        limite = time.monotonic() + 10
+        while True:
+            try:
+                resultado = OrganizadorArchivos(carpeta_origen=carpeta_organizada).deshacer()
+                break
+            except ErrorCarpetaEnUso:
+                if time.monotonic() > limite:
+                    raise
+                time.sleep(0.1)
 
         assert resultado is not None and resultado.exitosos == 2
 
