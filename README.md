@@ -286,7 +286,7 @@ proyectos/
 ## Desarrollo
 
 ```bash
-uv run pytest          # 769 tests
+uv run pytest          # 770 tests
 uv run ruff check .    # estilo
 uv run ruff format .   # formato
 uv run mypy            # tipos (modo estricto)
@@ -317,7 +317,7 @@ Dependencias: [cryptography](https://cryptography.io/), [watchdog](https://pytho
 
 ## Estado del proyecto (beta)
 
-**Probado:** los 769 tests pasan en Linux (Python 3.11, 3.12 y 3.14) y en macOS (Python 3.12). En Windows se han pasado con Python 3.14.
+**Probado:** los 770 tests pasan en Linux (Python 3.11, 3.12 y 3.14) y en macOS (Python 3.12). En Windows se han pasado con Python 3.14.
 
 **Falta probar:** el uso real durante tiempo: carpetas con muchos miles de ficheros, vigilar durante horas, discos externos y unidades de red.
 

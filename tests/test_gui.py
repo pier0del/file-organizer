@@ -915,6 +915,29 @@ class TestHistorialYEstadisticas:
         assert imagenes.count("█") > documentos.count("█")
         assert any(linea.startswith("TOTAL") and "3 fichero(s)" in linea for linea in lineas)
 
+    def test_las_estadisticas_se_ven_desde_arriba_aunque_no_quepan(
+        self, raiz: tk.Tk, tmp_path: Path, historial_sincrono: None
+    ):
+        """Antes el panel saltaba al final: con muchas categorías se escondían el título y las
+        categorías con más ficheros, que son las primeras.
+        """
+        extensiones = [".jpg", ".mp4", ".mp3", ".pdf", ".py", ".csv", ".zip", ".exe", ".ttf"]
+        extensiones += [".epub", ".psd", ".srt", ".torrent"]
+        carpeta = _ficheros(
+            tmp_path / "origen", "otra.jpg", *(f"f{i}{ext}" for i, ext in enumerate(extensiones))
+        )
+        OrganizadorArchivos(carpeta_origen=carpeta).ejecutar()
+        pestana = _pestana_historial(raiz)
+        pestana.ruta.establecer(str(carpeta))
+
+        pestana._ver_estadisticas()
+        raiz.update()
+
+        primera, ultima = pestana.registro.yview()
+        assert ultima < 1  # no cabe todo: hay que desplazarse
+        assert primera == 0  # y se ve desde el título
+        assert _texto_registro(pestana.registro).startswith("ESTADÍSTICAS DEL ÚLTIMO PASO")
+
     def test_el_historial_de_otra_carpeta_se_ve_desde_el_destino(
         self, raiz: tk.Tk, tmp_path: Path, historial_sincrono: None
     ):

@@ -318,7 +318,9 @@ class PestanaHistorial:
                 "atenuado",
             )
         )
-        self.panel_registro.escribir(*trozos, mostrar_final=True)
+        self.panel_registro.escribir(*trozos)
+        # Se empieza a leer por arriba: el título y las categorías con más ficheros.
+        self.registro.yview_moveto(0)
 
     def _limpiar_historial(self) -> None:
         """Pide confirmación y borra el historial en un hilo aparte (bloqueado si se está
