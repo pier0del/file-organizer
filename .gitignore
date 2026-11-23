@@ -1,0 +1,53 @@
+### Python ###
+__pycache__/
+*.pyc
+.venv/
+
+### IntelliJ / Cursor / VS Code ###
+.idea/
+.vscode/
+*.iml
+out/
+
+### Tests / cobertura ###
+.pytest_cache/
+.coverage
+htmlcov/
+
+### Sistema operativo ###
+.DS_Store
+Thumbs.db
+desktop.ini
+# macOS en discos externos y unidades de red: copias ocultas (._fichero) y carpetas del sistema
+._*
+.Spotlight-V100
+.Trashes
+
+### Proyecto — datos generados (llevan rutas y nombres de tus ficheros) ###
+# Historial y sus copias apartadas, backups, bloqueo, reglas e ignorados de cada carpeta
+.file-organizer*
+# El log y sus copias rotadas (.1, .2, .3)
+file-organizer.log*
+config/*.bak
+
+### Graphify — salida/caché local de la skill, no es parte del proyecto ###
+graphify-out/
+
+### Cifrado — NUNCA subir claves ni ficheros cifrados de prueba ###
+*.key
+*.enc
+*.pem
+.env
+.env.*
+prueba_carpeta/
+secreto.txt
+
+### Empaquetado futuro (PyInstaller, si conviertes la GUI en .exe) ###
+build/
+dist/
+*.spec
+
+### Empaquetado y herramientas de calidad ###
+*.egg-info/
+.ruff_cache/
+.mypy_cache/

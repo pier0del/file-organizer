@@ -1,0 +1,94 @@
+[build-system]
+requires = ["setuptools>=77"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "file-organizer"
+dynamic = ["version"]
+description = "Organiza automáticamente los ficheros de una carpeta por categoría, con deshacer, vigilancia en tiempo real y cifrado."
+readme = "README.md"
+requires-python = ">=3.11"
+license = "MIT"
+license-files = ["LICENSE"]
+authors = [{ name = "pier0del_" }]
+keywords = ["organizador", "ficheros", "cifrado", "watchdog", "tkinter", "cli"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Environment :: Console",
+    "Environment :: X11 Applications",
+    "Intended Audience :: End Users/Desktop",
+    "Natural Language :: Spanish",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
+    "Topic :: System :: Filesystems",
+    "Topic :: Utilities",
+]
+dependencies = [
+    "colorama>=0.4.6",
+    "cryptography>=42",
+    "filelock>=3.12",
+    "watchdog>=4",
+]
+
+
+[project.scripts]
+file-organizer = "file_organizer.cli.aplicacion:main"
+
+[project.gui-scripts]
+file-organizer-gui = "file_organizer.gui.aplicacion:main"
+
+[project.urls]
+Repository = "https://github.com/pier0del/file-organizer"
+
+# Herramientas de desarrollo (PEP 735). `uv sync` las instala siempre; con pip (25.1 o
+# posterior): `pip install -e . --group dev`.
+[dependency-groups]
+dev = [
+    "mypy>=1.10",
+    "pytest>=8",
+    "ruff>=0.15",
+    "types-colorama",
+]
+
+[tool.setuptools.dynamic]
+version = { attr = "file_organizer.__version__" }
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+src = ["src", "tests"]
+
+[tool.ruff.lint]
+select = [
+    "E",    # pycodestyle (errores)
+    "W",    # pycodestyle (avisos)
+    "F",    # pyflakes: imports y variables sin usar, nombres indefinidos
+    "I",    # orden de imports
+    "B",    # flake8-bugbear: patrones propensos a errores
+    "C4",   # comprensiones innecesarias
+    "UP",   # sintaxis moderna de Python
+    "SIM",  # simplificaciones
+    "RUF",  # reglas propias de ruff
+]
+ignore = [
+    "E501",  # longitud de línea: la gestiona el formateador
+]
+
+[tool.ruff.lint.isort]
+known-first-party = ["file_organizer"]
+
+[tool.mypy]
+python_version = "3.11"
+files = ["src"]
+strict = true
