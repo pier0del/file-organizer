@@ -1,5 +1,7 @@
 # file-organizer
 
+[![CI](https://github.com/pier0del/file-organizer/actions/workflows/ci.yml/badge.svg)](https://github.com/pier0del/file-organizer/actions/workflows/ci.yml)
+
 Ordena los ficheros de una carpeta en subcarpetas por tipo (`Imagenes/`, `Documentos/`…), por fecha (`2024/03/`) o por las dos. Todo se puede deshacer.
 
 Se usa con ventana, con un menú en la terminal o con comandos.
