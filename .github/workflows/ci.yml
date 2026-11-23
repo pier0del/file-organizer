@@ -48,7 +48,8 @@ jobs:
 
       - name: Tests (Linux)
         if: runner.os == 'Linux'
-        run: xvfb-run -a uv run pytest
+        # Pantalla de 1920x1080 (sin -s, xvfb-run la crea de 640x480 y 8 bits de color).
+        run: xvfb-run -a -s "-screen 0 1920x1080x24" uv run pytest
 
       - name: Tests
         if: runner.os != 'Linux'

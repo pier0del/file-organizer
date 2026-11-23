@@ -278,6 +278,22 @@ def _redimensionar(ventana: tk.Tk, geometria: str) -> None:
     ventana.update()  # la segunda pasada aplica lo que cambió el <Configure>
 
 
+def _saltar_si_la_pantalla_no_deja(ventana: tk.Misc, geometria: str) -> None:
+    """Salta el test si la ventana se quedó más pequeña que ``geometria``.
+
+    macOS no deja que una ventana sea más alta que la pantalla menos la barra de menús y el
+    Dock. En una pantalla pequeña, como la de las máquinas de macOS de GitHub Actions, la
+    ventana no llega al tamaño pedido, y lo que el test comprueba a ese tamaño deja de tener
+    sentido: no es un fallo del programa.
+    """
+    ancho, alto = (int(n) for n in geometria.split("x"))
+    if ventana.winfo_width() < ancho or ventana.winfo_height() < alto:
+        pytest.skip(
+            f"La pantalla no deja la ventana a {geometria}: se queda en "
+            f"{ventana.winfo_width()}x{ventana.winfo_height()}"
+        )
+
+
 class TestSeccionIntegridad:
     """La sección «Integridad» de la pestaña Organizar y cómo se reparte según el ancho."""
 
@@ -594,6 +610,7 @@ class TestTodoCabe:
             cifrado._metodo.set(metodo)
             cifrado._actualizar_metodo()
         _redimensionar(raiz, geometria)
+        _saltar_si_la_pantalla_no_deja(raiz, geometria)
 
         pagina = barra.contenido
         limite = pagina.winfo_rooty() + pagina.winfo_height()
@@ -2001,6 +2018,7 @@ class TestDialogoReglas:
         assert dialogo.barra_lista.winfo_ismapped()
 
         self._tras_redimensionar(raiz, dialogo, "640x1000")  # más alta: ahora caben todas
+        _saltar_si_la_pantalla_no_deja(dialogo.ventana, "640x1000")
         assert not dialogo.barra_lista.winfo_ismapped()
         dialogo.cerrar()
 
