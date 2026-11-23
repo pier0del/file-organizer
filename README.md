@@ -9,6 +9,10 @@ Se usa con ventana, con un menú en la terminal o con comandos.
 
 ---
 
+<p align="center">
+  <img src="docs/capturas/organizar.png" width="640" alt="Pestaña Organizar después de organizar una carpeta de ejemplo">
+</p>
+
 ## Qué hace
 
 - **Organiza** por tipo de fichero, por fecha o por tipo y fecha. La fecha sale de los metadatos (EXIF de las fotos, grabación de los vídeos, creación de PDF y Office) y, si no los hay, de la del fichero.
@@ -115,6 +119,10 @@ Opciones útiles:
 
 En la ventana son las opciones de la pestaña **Organizar**.
 
+<p align="center">
+  <img src="docs/capturas/simular.png" width="600" alt="Resultado de Simular: qué se movería y adónde, sin mover nada">
+</p>
+
 ---
 
 ## Deshacer
@@ -139,6 +147,10 @@ file-organizer --carpeta ~/Descargas --limpiar-historial  # olvidar el historial
 | `completa` | El contenido completo de todos (SHA-256) | Lee todos los ficheros |
 | `rapida` | Solo el tamaño y la fecha | Nulo |
 
+<p align="center">
+  <img src="docs/capturas/historial.png" width="600" alt="Pestaña Historial con las estadísticas del último paso">
+</p>
+
 ---
 
 ## Duplicados
@@ -161,6 +173,10 @@ Mandan ficheros concretos a la carpeta que tú digas, por su nombre. Ganan a las
 | `factura*` | `Facturas/{año}` | `Factura_marzo.pdf` → `Facturas/2024/` |
 | `*.pdf` | `Documentos` | Todos los PDF, a `Documentos/` |
 | `IMG_????.jpg` | `Fotos del móvil/{año}/{mes}` | Las fotos del móvil, por año y mes |
+
+<p align="center">
+  <img src="docs/capturas/reglas.png" width="480" alt="Ventana de reglas con dos reglas y la prueba de un nombre">
+</p>
 
 - `*` es cualquier texto y `?`, un carácter. No distingue mayúsculas.
 - `{año}` y `{mes}` se cambian por la fecha del fichero.
