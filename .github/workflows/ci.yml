@@ -1,0 +1,55 @@
+# Integración continua: en cada push a main y en cada pull request, comprueba el estilo y los
+# tipos, y pasa los tests en Linux, Windows y macOS con todas las versiones de Python admitidas.
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+# Si subes otro cambio mientras se comprueba el anterior, se cancela el anterior.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  calidad:
+    name: Estilo y tipos
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+      - run: uv sync --locked
+      - run: uv run ruff check .
+      - run: uv run ruff format --check .
+      - run: uv run mypy
+
+  tests:
+    name: Tests (${{ matrix.os }}, Python ${{ matrix.python }})
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false # si falla un sistema, se siguen probando los demás
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        python: ["3.11", "3.12", "3.13", "3.14"]
+    env:
+      UV_PYTHON_PREFERENCE: only-managed # los Python de uv traen tkinter en los tres sistemas
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+        with:
+          python-version: ${{ matrix.python }}
+      - run: uv sync --locked
+
+      - name: Pantalla virtual para los tests de la ventana
+        if: runner.os == 'Linux'
+        run: sudo apt-get update && sudo apt-get install -y xvfb
+
+      - name: Tests (Linux)
+        if: runner.os == 'Linux'
+        run: xvfb-run -a uv run pytest
+
+      - name: Tests
+        if: runner.os != 'Linux'
+        run: uv run pytest
